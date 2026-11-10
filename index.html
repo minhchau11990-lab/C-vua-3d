@@ -3,49 +3,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Cờ Vua 3D Online</title>
 <style>
-:root{--bg:#eef0f5;--pn:#fff;--tx:#1b2030;--mu:#667085;--ac:#b8860b;--ln:#d5d9e3;--in:#f3f4f8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1018;--pn:#181d2b;--tx:#e9ecf5;--mu:#8b93a8;--ac:#e8b84a;--ln:#2a3145;--in:#10141f}}
-:root[data-theme="dark"]{--bg:#0d1018;--pn:#181d2b;--tx:#e9ecf5;--mu:#8b93a8;--ac:#e8b84a;--ln:#2a3145;--in:#10141f}
+:root{--bg:#262421;--pn:#312e2b;--in:#262421;--tx:#fff;--mu:#a9a7a4;--ac:#81b64c;--ln:#3d3a37}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e9e8e4;--pn:#fff;--in:#f0efea;--tx:#1f1e1c;--mu:#6b6a67;--ln:#d6d4cf}}
+:root[data-theme="light"]{--bg:#e9e8e4;--pn:#fff;--in:#f0efea;--tx:#1f1e1c;--mu:#6b6a67;--ln:#d6d4cf}
 *{box-sizing:border-box}html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--tx);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
-#app{display:grid;grid-template-columns:1fr 330px;height:100%}
-#stage{position:relative;min-height:0;background:radial-gradient(circle at 50% 30%,#2b3350,#0b0d14)}
+#app{position:fixed;inset:0;display:grid;grid-template-columns:76px minmax(0,1fr) 380px}
+#nav{background:var(--in);display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:calc(8px + env(safe-area-inset-top,0px))}
+.lg{font-size:32px;color:var(--ac);margin-bottom:6px}
+.nv{background:none;color:var(--mu);width:66px;padding:8px 0;border-radius:8px;font-size:22px;display:flex;flex-direction:column;align-items:center;border:0;font-weight:400}
+.nv small{font-size:10px;color:inherit}.nv.on{background:var(--pn);color:var(--tx)}
+#stage{position:relative;min-width:0;min-height:0;background:radial-gradient(circle at 50% 30%,#3a3733,#1b1a18)}
 canvas{display:block;width:100%;height:100%;touch-action:none}
-#side{background:var(--pn);border-left:1px solid var(--ln);display:flex;flex-direction:column;padding:10px;gap:8px;min-height:0;overflow:auto}
-@media(max-width:800px){#app{grid-template-columns:1fr;grid-template-rows:48% 52%}#side{border-left:0;border-top:1px solid var(--ln)}}
-.box{background:var(--in);border:1px solid var(--ln);border-radius:10px;padding:8px}
-h1{font-size:20px;margin:0 0 4px;color:#e8b84a}h3{margin:0 0 6px;font-size:14px}
-button,select,input{font:inherit;border-radius:8px;border:1px solid var(--ln);background:var(--pn);color:var(--tx);padding:7px 10px}
-button{cursor:pointer;background:var(--ac);color:#111;border:0;font-weight:600}button.g{background:var(--in);color:var(--tx);border:1px solid var(--ln)}button:disabled{opacity:.4}
-input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.row>input{flex:1}
-#menu{position:absolute;inset:0;overflow:auto;padding:14px;background:rgba(8,10,18,.72);color:#e9ecf5;display:grid;gap:10px;align-content:start}
-#menu .box{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}#menu select,#menu input{background:#10141f;color:#fff;border-color:#2a3145}
-#menu .g{background:#10141f;color:#fff}
-#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
-#chat{position:fixed;left:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:30;width:min(290px,calc(100% - 20px));display:none;flex-direction:column;background:var(--pn);box-shadow:0 4px 20px #0008}#chat.open{display:flex}#msgs{height:110px;overflow:auto;font-size:13px;margin-bottom:6px}#ctl{z-index:30;flex-wrap:wrap;max-width:calc(100% - 20px)}#ctl button{padding:6px 9px}#ban{z-index:25}#menu{padding-top:56px!important}#app{display:block!important}#stage{height:100%}#side{position:fixed;top:0;right:0;bottom:0;width:min(330px,100%);z-index:40;transform:translateX(105%);transition:transform .25s;box-shadow:-6px 0 24px #0008;border-left:1px solid var(--ln)!important}#side.open{transform:none}#hud{position:absolute;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:rgba(10,12,20,.7);color:#fff;padding:6px 14px;border-radius:20px;font-size:13px;pointer-events:none;max-width:calc(100% - 24px);text-align:center;display:none;z-index:5}#app{position:fixed;inset:0;height:auto!important}#ctl{top:calc(10px + env(safe-area-inset-top,0px))!important}@media(max-width:600px){#ctl{gap:4px}#ctl button{padding:5px 8px;font-size:12px}#hud{font-size:12px;padding:5px 10px}#menu{padding:10px!important;padding-top:calc(52px + env(safe-area-inset-top,0px))!important}h1{font-size:17px}#chat{width:calc(100% - 20px)}}
-.m b{color:var(--ac)}.me b{color:#4ca3ff}small,.mu{color:var(--mu)}
-#ban{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);background:rgba(10,12,20,.9);color:#fff;border:2px solid #e8b84a;border-radius:14px;padding:18px 26px;text-align:center;font-size:20px;display:none}
-#ctl{position:absolute;left:10px;top:10px;display:flex;gap:6px}
+#panel{background:var(--pn);border-left:1px solid var(--ln);display:flex;flex-direction:column;min-height:0;overflow:auto;padding:10px;gap:8px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+#ph{display:flex;gap:6px;align-items:center;font-size:17px}.sp{flex:1}
+button,select,input{font:inherit;border-radius:8px;border:1px solid var(--ln);background:var(--in);color:var(--tx);padding:8px 10px}
+button{cursor:pointer;background:var(--ac);color:#fff;border:0;font-weight:700}button.g{background:var(--in);color:var(--tx);border:1px solid var(--ln)}button:disabled{opacity:.4}
+.big{width:100%;padding:14px;font-size:18px;margin:4px 0;box-shadow:0 4px 0 #5d8a35}.big.g{box-shadow:none}
+input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.row>input,.row>select{flex:1}
+.box{background:var(--in);border:1px solid var(--ln);border-radius:10px;padding:8px}h3{margin:0 0 6px;font-size:14px}.mu,small{color:var(--mu)}
+.seg{display:flex;gap:2px}.seg button{flex:1;background:var(--in);color:var(--mu);border-radius:0}.seg .on{background:var(--ac);color:#fff}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.chip{background:var(--pn);color:var(--tx);border:1px solid var(--ln)}.chip.on{background:var(--ac);color:#fff}
+#menu,#vGame{display:flex;flex-direction:column;gap:8px}#vGame{display:none}.vw{display:flex;flex-direction:column;gap:8px}
+.pc{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--in);border-radius:8px;padding:8px 10px}
+.ck{font:700 22px ui-monospace,monospace;background:#403d39;color:#fff;padding:2px 10px;border-radius:6px}.ck.on{background:#fff;color:#000}
+#mv{max-height:230px;min-height:70px;overflow:auto;font-size:13px;line-height:1.8}
+#ctl{position:absolute;left:10px;top:calc(10px + env(safe-area-inset-top,0px));display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100% - 20px);z-index:30}
+#ctl button{padding:6px 9px}
+#zm{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:6px;z-index:30}#zm button{width:40px;height:40px;font-size:20px;padding:0}
+#chat{position:absolute;left:10px;bottom:10px;z-index:30;width:min(290px,calc(100% - 70px));display:none;flex-direction:column;background:var(--pn);box-shadow:0 4px 20px #0008}#chat.open{display:flex}
+#msgs{height:110px;overflow:auto;font-size:13px;margin-bottom:6px}.m b{color:var(--ac)}.me b{color:#4ca3ff}
+#ban{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);background:rgba(20,19,17,.94);color:#fff;border:2px solid var(--ac);border-radius:14px;padding:18px 26px;text-align:center;font-size:20px;display:none;z-index:25}
+#hud{display:none!important}
+@media(max-width:800px){#app{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,46%) minmax(0,1fr) calc(56px + env(safe-area-inset-bottom,0px))}
+#stage{order:1}#panel{order:2;border-left:0;border-top:1px solid var(--ln);padding-top:10px}#nav{order:3;flex-direction:row;justify-content:space-around;padding:2px 0 env(safe-area-inset-bottom,0px)}
+.lg{display:none}.nv{width:auto;flex:1;padding:4px 0;font-size:20px}#ctl button{padding:5px 8px;font-size:12px}}
 </style></head><body>
 <div id="app">
+<nav id="nav"><div class="lg">♞</div>
+<button class="nv on" data-v="play">♟<small>Chơi</small></button>
+<button class="nv" data-v="puz">🧩<small>Giải đố</small></button>
+<button class="nv" data-v="watch">👁<small>Xem</small></button>
+<button class="nv" data-v="rank">🏆<small>Hạng</small></button>
+<button class="nv" id="nvc">💬<small>Chat</small></button></nav>
 <div id="stage"><canvas id="c"></canvas>
-<div id="ctl"><button class="g" id="bm">☰ Menu</button><button class="g" id="bs">🔊</button><button class="g" id="bmu">🎵</button><button class="g" id="bp">📋</button><button class="g" id="bc">💬<span id="ub"></span></button><button class="g" id="rs" style="display:none">🏳 Đầu hàng</button></div>
-<div id="hud"></div><div id="ban"><div id="bt"></div><br><button id="rm">⚔ Tái đấu</button> <button class="g" id="bb">Về menu</button></div>
-<div id="menu">
-<div><h1>♞ Cờ Vua 3D Online</h1><div class="row"><input id="nm" placeholder="Tên của bạn" maxlength="14"><span>🪙 <b id="coin">1000</b> xu ảo</span><span id="me"></span><button class="g" id="free" style="display:none">+500 xu</button></div><small id="net"></small></div>
-<div id="grid">
-<div class="box"><h3>🤖 Chơi với máy</h3><div class="row"><select id="lv"><option value="1">Thân thiện (~400 Elo)</option><option value="2" selected>Thử thách (~900 Elo)</option><option value="3">Chuyên gia (~1400 Elo)</option></select><select id="sd"><option value="w">Quân Trắng</option><option value="b">Quân Đen</option><option value="r">Ngẫu nhiên</option></select></div><br><button id="pai">Bắt đầu</button></div>
-<div class="box"><h3>🤝 Chơi với bạn bè</h3><div class="row"><button id="mk">Tạo phòng</button><button class="g" id="lc">2 người chung máy</button></div><div class="row" style="margin-top:6px"><input id="cd" placeholder="Mã phòng" maxlength="6"><button id="jn">Vào chơi</button><button class="g" id="wt">Xem</button></div></div>
-<div class="box"><h3>🌍 Chơi với người lạ</h3><button id="sk">Tìm đối thủ</button> <small id="skst"></small></div>
-</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px"><div class="box"><h3>⏱ Thời gian mỗi bên</h3><select id="tc"><option value="0">Không giới hạn</option><option value="180">Blitz · 3 phút</option><option value="300">Blitz · 5 phút</option><option value="600">Rapid · 10 phút</option><option value="900">Rapid · 15 phút</option><option value="1800">Rapid · 30 phút</option><option value="3600">Classical · 60 phút</option></select><br><small>Áp dụng cho ván với máy, bạn bè, người lạ</small></div><div class="box"><h3>🧩 Giải đố chiến thuật</h3><div class="row"><button id="pt">Luyện tập</button><button id="pr">Puzzle Rush 3 phút</button></div><small>Chiếu hết trong 1 nước · +1 điểm mỗi bài</small></div></div><div class="box"><h3>🏆 Bảng xếp hạng (👑 vàng · 🥈 bạc · 🥉 đồng)</h3><div class="row"><button id="lw">Tuần</button><button class="g" id="lm">Tháng</button><button class="g" id="lr">⟳</button></div><div id="lbl" class="mu" style="margin-top:6px"></div></div><div class="box"><h3>👁 Trận đang diễn ra (xem và đặt cược)</h3><div id="live" class="mu">Chưa có trận nào.</div></div>
-</div></div>
-<div id="side"><button class="g" id="xs" style="align-self:flex-end">✕ Đóng</button>
-<div class="box"><div id="pl"><b>Cờ Vua 3D</b></div><div id="st" class="mu">Chọn chế độ chơi</div><small id="cnt"></small><div id="mv" class="mu" style="font-size:12px;margin-top:4px"></div></div>
-<div class="box" id="bet" style="display:none"><h3>🎲 Đặt cược (xu ảo)</h3><div class="row"><select id="bs2"><option value="w">Trắng thắng</option><option value="b">Đen thắng</option></select><input id="ba" type="number" value="100" min="10" style="width:80px"><button id="bg">Cược</button></div><small id="pool"></small></div>
-
+<div id="ctl"><button class="g" id="bm">🏠 Thoát</button><button class="g" id="bs">🔊</button><button class="g" id="bmu">🎵</button><button class="g" id="bc">💬<span id="ub"></span></button><button class="g" id="bp" style="display:none">📋</button><button class="g" id="rs" style="display:none">🏳 Đầu hàng</button></div>
+<div id="zm"><button class="g" id="zi">＋</button><button class="g" id="zo">－</button></div>
+<div id="hud"></div>
+<div id="ban"><div id="bt"></div><br><button id="rm">⚔ Tái đấu</button> <button class="g" id="bb">Về menu</button></div>
 <div class="box" id="chat"><h3>💬 Trò chuyện</h3><div id="msgs"></div><div class="row"><input id="ci" placeholder="Nhập tin nhắn…" maxlength="120"><button id="cs">Gửi</button></div></div>
-</div></div>
+</div>
+<aside id="panel">
+<div id="ph"><b>♞ Cờ Vua 3D</b><span class="sp"></span><button class="g" id="uzm">A−</button><button class="g" id="uzp">A+</button></div>
+<div class="box"><div class="row"><input id="nm" placeholder="Tên của bạn" maxlength="14"><span>🪙 <b id="coin">1000</b></span><button class="g" id="free" style="display:none">+500</button></div><div id="me" class="mu"></div><small id="net"></small></div>
+<div id="menu">
+<div class="vw" id="vplay">
+<div class="seg"><button class="on" data-p="n">Ván mới</button><button data-p="b">Với máy</button><button data-p="f">Bạn bè</button></div>
+<div class="box"><h3>⏱ Thời gian mỗi bên</h3><div class="chips"><button class="chip" data-v="180">Blitz 3′</button><button class="chip" data-v="300">Blitz 5′</button><button class="chip on" data-v="600">Rapid 10′</button><button class="chip" data-v="900">Rapid 15′</button><button class="chip" data-v="1800">Rapid 30′</button><button class="chip" data-v="3600">Cổ điển 60′</button><button class="chip" data-v="0" style="grid-column:1/-1">∞ Không giới hạn</button></div>
+<select id="tc" hidden><option value="0">0</option><option value="180">180</option><option value="300">300</option><option value="600" selected>600</option><option value="900">900</option><option value="1800">1800</option><option value="3600">3600</option></select></div>
+<div id="pgn"><button class="big" id="sk">▶ Chơi ngay</button><small id="skst"></small><p class="mu">Ghép tự động với người chơi online đang tìm trận.</p></div>
+<div id="pgb" style="display:none"><div class="row"><select id="lv"><option value="1">Thân thiện (~400 Elo)</option><option value="2" selected>Thử thách (~900 Elo)</option><option value="3">Chuyên gia (~1400 Elo)</option></select><select id="sd"><option value="w">Quân Trắng</option><option value="b">Quân Đen</option><option value="r">Ngẫu nhiên</option></select></div><button class="big" id="pai">▶ Chơi với máy</button></div>
+<div id="pgf" style="display:none"><button class="big" id="mk">＋ Tạo phòng mời bạn</button><div class="row"><input id="cd" placeholder="Nhập mã phòng" maxlength="6"><button id="jn">Vào chơi</button></div><button class="big g" id="lc">2 người chung máy</button></div>
+</div>
+<div class="vw" id="vpuz" style="display:none"><div class="box"><h3>🧩 Giải đố chiến thuật</h3><small>Chiếu hết trong 1 nước · +1 điểm mỗi bài</small></div><button class="big" id="pt">Luyện tập</button><button class="big g" id="pr">⚡ Puzzle Rush 3 phút</button></div>
+<div class="vw" id="vwatch" style="display:none"><div class="box"><h3>👁 Trận đang diễn ra</h3><div id="live" class="mu">Chưa có trận nào.</div></div><div class="row"><input id="cw" placeholder="Hoặc nhập mã phòng" maxlength="6"><button id="wt">Xem</button></div><small>Người xem được trò chuyện và đặt cược xu ảo cho bên Trắng hoặc Đen.</small></div>
+<div class="vw" id="vrank" style="display:none"><div class="box"><h3>🏆 Bảng xếp hạng (👑 vàng · bạc · đồng)</h3><div class="row"><button id="lw">Tuần</button><button class="g" id="lm">Tháng</button><button class="g" id="lr">⟳</button></div><div id="lbl" class="mu" style="margin-top:6px"></div></div></div>
+</div>
+<div id="vGame">
+<div class="pc"><b id="nT">…</b><span class="ck" id="kT"></span></div>
+<div id="mv" class="box"></div>
+<div class="pc"><b id="nB">…</b><span class="ck" id="kB"></span></div>
+<div id="st" class="mu"></div><small id="cnt"></small><div id="pl" style="display:none"></div>
+<div class="row"><button class="g" id="tb" style="display:none">↩ Đi lại</button></div>
+<div class="box" id="bet" style="display:none"><h3>🎲 Đặt cược (xu ảo)</h3><div class="row"><select id="bs2"><option value="w">Trắng thắng</option><option value="b">Đen thắng</option></select><input id="ba" type="number" value="100" min="10" style="width:80px"><button id="bg">Cược</button></div><small id="pool"></small></div>
+</div>
+</aside></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 <script>
@@ -134,14 +166,14 @@ function settle(w){if(!myBet||myBet.done)return;myBet.done=1;const p=pool(),T=p.
 /* ===== GIAO DIỆN ===== */
 function upd(){const h=chess.history(),nmz={w:'Trắng',b:'Đen'};let pl=mode=='puz'?'🧩 Giải đố':mode=='local'?'⚪ Người 1 vs ⚫ Người 2':mode=='ai'?(myC=='w'?'⚪ Bạn vs ⚫ Máy':'⚪ Máy vs ⚫ Bạn'):mode?'⚪ '+nz(players.w)+' vs ⚫ '+(players.b?nz(players.b):'chờ đối thủ…'):'Cờ Vua 3D';$('#pl').innerHTML='<b>'+pl.replace(/</g,'&lt;')+'</b>';
 $('#st').textContent=!mode?'Chọn chế độ chơi':mode=='puz'?pzTxt():ended?'Ván cờ đã kết thúc':(chess.turn()==myC?'Đến lượt bạn':'Lượt '+nmz[chess.turn()])+(chess.in_check()?' — CHIẾU!':'');
-let s='';for(let i=Math.max(0,h.length-10);i<h.length;i++)s+=(i%2?'':(i/2+1|0)+'.')+h[i]+' ';$('#mv').textContent=s;$('#rs').style.display=(mode&&!ended&&(myC||mode=='local'))?'':'none';$('#hud').textContent=mode?$('#st').textContent+' — '+$('#pl').textContent+(TC&&mode!='puz'?'  ⚪ '+fm(clk.w)+' ⚫ '+fm(clk.b):''):'';$('#hud').style.display=mode?'':'none'}
-$('#bp').onclick=()=>$('#side').classList.toggle('open');$('#xs').onclick=()=>$('#side').classList.remove('open');let ub=0;$('#bc').onclick=()=>{$('#chat').classList.toggle('open');ub=0;$('#ub').textContent=''};
+let s='';for(let i=0;i<h.length;i++)s+=(i%2?'':(i/2+1|0)+'.')+h[i]+' ';$('#mv').textContent=s;$('#mv').scrollTop=1e9;$('#rs').style.display=(mode&&!ended&&(myC||mode=='local'))?'':'none';$('#hud').textContent=mode?$('#st').textContent+' — '+$('#pl').textContent+(TC&&mode!='puz'?'  ⚪ '+fm(clk.w)+' ⚫ '+fm(clk.b):''):'';$('#hud').style.display=mode?'':'none';cards()}
+let ub=0;$('#bc').onclick=()=>{$('#chat').classList.toggle('open');ub=0;$('#ub').textContent=''};
 function addMsg(d,mine){const e=document.createElement('div');e.className='m'+(mine?' me':'');const b=document.createElement('b');b.textContent=d.n+': ';e.append(b,document.createTextNode(d.t));$('#msgs').append(e);$('#msgs').scrollTop=1e9;if(!mine&&!$('#chat').classList.contains('open')){ub++;$('#ub').textContent=' '+ub}}
 function chatLine(d){addMsg(d,false)}
 $('#cs').onclick=sendChat;$('#ci').onkeydown=e=>{if(e.key=='Enter')sendChat()};
 function sendChat(){const t=$('#ci').value.trim();if(!t)return;nm();$('#ci').value='';const d={n:crown(me.id)+me.name,t};addMsg(d,true);const r=G||R;if(r)r.emit(G?'chat':'lobbychat',d)}
 const menu=$('#menu');menu.hidden=false;
-function showMenu(v){menu.hidden=!v;menu.style.display=v?'':'none'}
+function showMenu(v){menu.hidden=!v;menu.style.display=v?'':'none';$('#vGame').style.display=v?'none':'flex'}
 function resetG(){chess.reset();ended=false;bets={};myBet=null;players={};sel=null;legal=[];busy=false;$('#ban').style.display='none';$('#bet').style.display='none';$('#bg').disabled=false;$('#pool').textContent='';$('#bp').textContent='📋';clkInit(TC);rebuild();hi()}
 function enter(){showMenu(false);cs.th=myC=='b'?Math.PI:0;cs.ph=1;cs.d=Math.max(12,cs.min||0);snd('go');upd()}
 function leave(){try{G&&G.leave&&G.leave()}catch(e){}G=null;mode='';myC=null;if(R)R.presence({g:null,w:null,b:null,seek:null});seeking=false;$('#skst').textContent='';$('#cnt').textContent='';showMenu(true);upd();loadLB()}
@@ -168,7 +200,7 @@ function applyState(d){if(!d.w)return;const first=!players.w;players={w:d.w,b:d.
 if(!myC){$('#bet').style.display='';$('#bp').textContent='🎲 Cược'}if(first||old!=myC){cs.th=myC=='b'?Math.PI:0}upd();showPool();checkEnd()}
 $('#mk').onclick=()=>R&&startOnline(rc(),true);
 $('#jn').onclick=()=>{const c=$('#cd').value.trim().toUpperCase();if(R&&c)startOnline(c,false,false)};
-$('#wt').onclick=()=>{const c=$('#cd').value.trim().toUpperCase();if(R&&c)startOnline(c,false,true)};
+$('#wt').onclick=()=>{const c=$('#cw').value.trim().toUpperCase();if(R&&c)startOnline(c,false,true)};
 $('#sk').onclick=()=>{if(!R)return;nm();seeking=true;R.presence({seek:me.id,name:me.name});$('#skst').textContent='Đang tìm đối thủ…';chk()};
 function chk(){if(!seeking||!R)return;const o=R.peers().find(p=>p.presence&&p.presence.seek&&p.presence.seek!=me.id);if(o&&me.id<o.presence.seek){seeking=false;R.presence({seek:null});const c=rc();startOnline(c,true).then(()=>R.emit('match',{to:o.presence.seek,code:c}))}}
 function renderLive(){const l=R?R.peers().filter(p=>p.presence&&p.presence.g):[];const e=$('#live');e.textContent='';if(!l.length){e.textContent='Chưa có trận nào.';return}l.forEach(p=>{const b=document.createElement('button');b.className='g';b.style.margin='2px';b.textContent='👁 '+p.presence.w+' vs '+p.presence.b+' ('+p.presence.g+')';b.onclick=()=>startOnline(p.presence.g,false,true);e.append(b)})}
@@ -196,5 +228,23 @@ function endPuz(why){if(ended)return;ended=true;if(pz.rush&&pz.s>1)award(Math.fl
 $('#pt').onclick=()=>startPuz(false);$('#pr').onclick=()=>startPuz(true);
 setInterval(()=>{const n=performance.now(),dt=(n-lastT)/1e3;lastT=n;if(!mode||ended)return;if(mode=='puz'){if(pz.rush&&Date.now()>pz.end)endPuz('Hết giờ!');else upd();return}if(!TC||chess.history().length<1||(mode=='online'&&!(players.w&&players.b)))return;const t=chess.turn();clk[t]=Math.max(0,clk[t]-dt);upd();if(clk[t]<=0)finish(t=='w'?'b':'w','Hết giờ!')},250);
 (async()=>{try{DB=window.claude&&await claude.use('db')}catch(e){}loadLB()})();save();
+
+function cards(){const b=mode=='local'?chess.turn():(myC||'w'),tp=b=='w'?'b':'w',nf=c=>mode=='ai'?(c==myC?(me.name||'Bạn'):'🤖 Máy ('+['','Thân thiện','Thử thách','Chuyên gia'][lv]+')'):mode=='local'?(c=='w'?'Người 1':'Người 2'):mode=='puz'?'🧩 Giải đố':nz(players[c]),f=c=>TC&&mode!='puz'?fm(clk[c]):'';$('#nT').textContent=(tp=='w'?'⚪ ':'⚫ ')+nf(tp);$('#nB').textContent=(b=='w'?'⚪ ':'⚫ ')+nf(b);$('#kT').textContent=f(tp);$('#kB').textContent=f(b);$('#kT').style.display=$('#kB').style.display=(TC&&mode!='puz')?'':'none';$('#kT').classList.toggle('on',!ended&&chess.turn()==tp);$('#kB').classList.toggle('on',!ended&&chess.turn()==b);$('#tb').style.display=mode=='ai'?'':'none'}
+$('#tb').onclick=()=>{if(mode!='ai'||ended||busy||chess.turn()!=myC||chess.history().length<2)return;chess.undo();chess.undo();sel=null;legal=[];rebuild();hi();upd();snd('chat')};
+document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{$('#tc').value=b.dataset.v;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x==b))});
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x==b));['n','b','f'].forEach(k=>$('#pg'+k).style.display=k==b.dataset.p?'':'none')});
+function view(v){document.querySelectorAll('.vw').forEach(e=>e.style.display=e.id=='v'+v?'':'none');document.querySelectorAll('.nv[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v==v));if(v=='rank')loadLB();if(v=='watch')renderLive()}
+document.querySelectorAll('.nv[data-v]').forEach(b=>b.onclick=()=>{if(mode)leave();view(b.dataset.v)});
+$('#nvc').onclick=()=>$('#bc').click();
+let uz=1;try{uz=+localStorage.getItem('c3uz')||1}catch(e){}
+function setUz(v){uz=Math.min(1.5,Math.max(.8,v));$('#panel').style.zoom=uz;try{localStorage.setItem('c3uz',uz)}catch(e){}}
+$('#uzm').onclick=()=>setUz(uz-.1);$('#uzp').onclick=()=>setUz(uz+.1);setUz(uz);
+const zmax=()=>Math.max(20,(cs.min||0)*1.4);
+$('#zi').onclick=()=>{cs.d=Math.max(7,cs.d*.87)};$('#zo').onclick=()=>{cs.d=Math.min(zmax(),cs.d*1.15)};
+const pt2=new Map();let pd0=1;const pdist=()=>{const a=[...pt2.values()];return Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])||1};
+cv.addEventListener('pointerdown',e=>{pt2.set(e.pointerId,[e.clientX,e.clientY]);if(pt2.size==2)pd0=pdist()});
+cv.addEventListener('pointermove',e=>{if(!pt2.has(e.pointerId))return;pt2.set(e.pointerId,[e.clientX,e.clientY]);if(pt2.size==2){const d=pdist();cs.d=Math.max(7,Math.min(zmax(),cs.d*pd0/d));pd0=d}});
+['pointerup','pointercancel'].forEach(v=>cv.addEventListener(v,e=>pt2.delete(e.pointerId)));
+cards();
 rebuild();resize();
 </script></body></html>
