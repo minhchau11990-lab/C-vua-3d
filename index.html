@@ -22,15 +22,15 @@ input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.r
 #menu .box{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}#menu select,#menu input{background:#10141f;color:#fff;border-color:#2a3145}
 #menu .g{background:#10141f;color:#fff}
 #grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
-#chat{flex:1;min-height:90px;display:flex;flex-direction:column}#msgs{flex:1;overflow:auto;font-size:13px;margin-bottom:6px}
+#chat{position:fixed;left:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:30;width:min(290px,calc(100% - 20px));display:none;flex-direction:column;background:var(--pn);box-shadow:0 4px 20px #0008}#chat.open{display:flex}#msgs{height:110px;overflow:auto;font-size:13px;margin-bottom:6px}#ctl{z-index:30;flex-wrap:wrap;max-width:calc(100% - 20px)}#ctl button{padding:6px 9px}#ban{z-index:25}#menu{padding-top:56px!important}
 .m b{color:var(--ac)}.me b{color:#4ca3ff}small,.mu{color:var(--mu)}
 #ban{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);background:rgba(10,12,20,.9);color:#fff;border:2px solid #e8b84a;border-radius:14px;padding:18px 26px;text-align:center;font-size:20px;display:none}
 #ctl{position:absolute;left:10px;top:10px;display:flex;gap:6px}
 </style></head><body>
 <div id="app">
 <div id="stage"><canvas id="c"></canvas>
-<div id="ctl"><button class="g" id="bm">☰ Menu</button><button class="g" id="bs">🔊</button><button class="g" id="bmu">🎵</button></div>
-<div id="ban"><div id="bt"></div><br><button id="bb">Về menu</button></div>
+<div id="ctl"><button class="g" id="bm">☰ Menu</button><button class="g" id="bs">🔊</button><button class="g" id="bmu">🎵</button><button class="g" id="bc">💬<span id="ub"></span></button><button class="g" id="rs" style="display:none">🏳 Đầu hàng</button></div>
+<div id="ban"><div id="bt"></div><br><button id="rm">⚔ Tái đấu</button> <button class="g" id="bb">Về menu</button></div>
 <div id="menu">
 <div><h1>♞ Cờ Vua 3D Online</h1><div class="row"><input id="nm" placeholder="Tên của bạn" maxlength="14"><span>🪙 <b id="coin">1000</b> xu ảo</span><button class="g" id="free" style="display:none">+500 xu</button></div><small id="net"></small></div>
 <div id="grid">
@@ -43,7 +43,7 @@ input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.r
 <div id="side">
 <div class="box"><div id="pl"><b>Cờ Vua 3D</b></div><div id="st" class="mu">Chọn chế độ chơi</div><small id="cnt"></small><div id="mv" class="mu" style="font-size:12px;margin-top:4px"></div></div>
 <div class="box" id="bet" style="display:none"><h3>🎲 Đặt cược (xu ảo)</h3><div class="row"><select id="bs2"><option value="w">Trắng thắng</option><option value="b">Đen thắng</option></select><input id="ba" type="number" value="100" min="10" style="width:80px"><button id="bg">Cược</button></div><small id="pool"></small></div>
-<div class="row"><button class="g" id="rs" style="display:none">🏳 Đầu hàng</button></div>
+
 <div class="box" id="chat"><h3>💬 Trò chuyện</h3><div id="msgs"></div><div class="row"><input id="ci" placeholder="Nhập tin nhắn…" maxlength="120"><button id="cs">Gửi</button></div></div>
 </div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -126,7 +126,7 @@ for(const m of ms){chess.move(m);const s=mm(d-1,a,b);chess.undo();if(w){best=Mat
 function aiMove(){if(ended||mode!='ai'||chess.turn()==myC)return;const w=chess.turn()=='w';let best=null,bs=w?-1e9:1e9;for(const m of chess.moves({verbose:true})){chess.move(m);const s=mm(lv-1,-1e9,1e9)+(Math.random()-.5)*(lv==1?300:10);chess.undo();if(w?s>bs:s<bs){bs=s;best=m}}if(best)doMove({from:best.from,to:best.to,promotion:'q'},true)}
 /* ===== KẾT THÚC, CƯỢC ===== */
 function checkEnd(){if(!chess.game_over())return;if(chess.in_checkmate())finish(chess.turn()=='w'?'b':'w','Chiếu hết!');else finish('d','Hòa cờ')}
-function finish(w,why){if(ended)return;ended=true;const nmz=c=>c=='w'?'Trắng':'Đen';$('#bt').innerHTML=(w=='d'?'🤝 Hòa':'🏆 '+nmz(w)+' thắng')+'<br><small>'+why+'</small>';$('#ban').style.display='block';snd(w=='d'?'go':(myC?(w==myC?'win':'lose'):'win'));upd();settle(w)}
+function finish(w,why){if(ended)return;ended=true;const nmz=c=>c=='w'?'Trắng':'Đen';$('#bt').innerHTML=(w=='d'?'🤝 Hòa':'🏆 '+nmz(w)+' thắng')+'<br><small>'+why+'</small>';$('#rm').disabled=false;$('#rm').textContent='⚔ Tái đấu';$('#rm').style.display=(mode=='online'&&!myC)?'none':'';$('#ban').style.display='block';snd(w=='d'?'go':(myC?(w==myC?'win':'lose'):'win'));upd();settle(w)}
 function pool(){const p={w:0,b:0};Object.values(bets).forEach(x=>p[x.side]+=x.amt);return p}
 function showPool(){const p=pool(),t=p.w+p.b;$('#pool').textContent='Quỹ: Trắng '+p.w+' | Đen '+p.b+(myBet?' — bạn cược '+myBet.amt+' cho '+(myBet.side=='w'?'Trắng':'Đen'):'')+(t&&p.w&&p.b&&!myBet?' — tỉ lệ T '+(t/p.w).toFixed(2)+' / Đ '+(t/p.b).toFixed(2):'')}
 $('#bg').onclick=()=>{const a=Math.floor(+$('#ba').value);if(myBet||ended||!G||!(a>=10)||a>coins){return}coins-=a;saveCoin();myBet={id:me.id,name:me.name,side:$('#bs2').value,amt:a};bets[me.id]=myBet;G.emit('bet',myBet);snd('bet');showPool();$('#bg').disabled=true};
@@ -134,8 +134,9 @@ function settle(w){if(!myBet||myBet.done)return;myBet.done=1;const p=pool(),T=p.
 /* ===== GIAO DIỆN ===== */
 function upd(){const h=chess.history(),nmz={w:'Trắng',b:'Đen'};let pl=mode=='local'?'⚪ Người 1 vs ⚫ Người 2':mode=='ai'?(myC=='w'?'⚪ Bạn vs ⚫ Máy':'⚪ Máy vs ⚫ Bạn'):mode?'⚪ '+((players.w||{}).name||'…')+' vs ⚫ '+((players.b||{}).name||'chờ đối thủ…'):'Cờ Vua 3D';$('#pl').innerHTML='<b>'+pl.replace(/</g,'&lt;')+'</b>';
 $('#st').textContent=!mode?'Chọn chế độ chơi':ended?'Ván cờ đã kết thúc':(chess.turn()==myC?'Đến lượt bạn':'Lượt '+nmz[chess.turn()])+(chess.in_check()?' — CHIẾU!':'');
-let s='';for(let i=Math.max(0,h.length-10);i<h.length;i++)s+=(i%2?'':(i/2+1|0)+'.')+h[i]+' ';$('#mv').textContent=s;$('#rs').style.display=(myC&&!ended&&mode)?'':'none'}
-function addMsg(d,mine){const e=document.createElement('div');e.className='m'+(mine?' me':'');const b=document.createElement('b');b.textContent=d.n+': ';e.append(b,document.createTextNode(d.t));$('#msgs').append(e);$('#msgs').scrollTop=1e9}
+let s='';for(let i=Math.max(0,h.length-10);i<h.length;i++)s+=(i%2?'':(i/2+1|0)+'.')+h[i]+' ';$('#mv').textContent=s;$('#rs').style.display=(mode&&!ended&&(myC||mode=='local'))?'':'none'}
+let ub=0;$('#bc').onclick=()=>{$('#chat').classList.toggle('open');ub=0;$('#ub').textContent=''};
+function addMsg(d,mine){const e=document.createElement('div');e.className='m'+(mine?' me':'');const b=document.createElement('b');b.textContent=d.n+': ';e.append(b,document.createTextNode(d.t));$('#msgs').append(e);$('#msgs').scrollTop=1e9;if(!mine&&!$('#chat').classList.contains('open')){ub++;$('#ub').textContent=' '+ub}}
 function chatLine(d){addMsg(d,false)}
 $('#cs').onclick=sendChat;$('#ci').onkeydown=e=>{if(e.key=='Enter')sendChat()};
 function sendChat(){const t=$('#ci').value.trim();if(!t)return;nm();$('#ci').value='';const d={n:me.name,t};addMsg(d,true);const r=G||R;if(r)r.emit(G?'chat':'lobbychat',d)}
@@ -145,14 +146,16 @@ function resetG(){chess.reset();ended=false;bets={};myBet=null;players={};sel=nu
 function enter(){showMenu(false);cs.th=myC=='b'?Math.PI:0;cs.ph=1;cs.d=12;snd('go');upd()}
 function leave(){try{G&&G.leave&&G.leave()}catch(e){}G=null;mode='';myC=null;if(R)R.presence({g:null,w:null,b:null,seek:null});seeking=false;$('#skst').textContent='';$('#cnt').textContent='';showMenu(true);upd()}
 $('#bm').onclick=leave;$('#bb').onclick=leave;
-$('#rs').onclick=()=>{if(!myC||ended)return;if(G)G.emit('resign',{c:myC});finish(myC=='w'?'b':'w','Bạn đã đầu hàng')};
+let rsT=null,rmReq={},rnd=0;$('#rs').onclick=()=>{const c=mode=='local'?chess.turn():myC;if(!c||ended)return;if(!rsT){$('#rs').textContent='Bấm lại để xác nhận';rsT=setTimeout(()=>{rsT=null;$('#rs').textContent='🏳 Đầu hàng'},3000);return}clearTimeout(rsT);rsT=null;$('#rs').textContent='🏳 Đầu hàng';if(G&&mode=='online')G.emit('resign',{c});finish(c=='w'?'b':'w',(mode=='local'?'':'Bạn ')+'đã đầu hàng')};
+function checkRm(){if(!players.w||!players.b||!rmReq[players.w.id]||!rmReq[players.b.id])return;rmReq={};const pl={w:players.b,b:players.w};rnd++;resetG();players=pl;myC=pl.w.id==me.id?'w':pl.b.id==me.id?'b':null;enter();if(host)sendState()}
+$('#rm').onclick=()=>{if(mode=='ai'){const c=myC;resetG();myC=c=='w'?'b':'w';enter();if(myC=='b')setTimeout(aiMove,600)}else if(mode=='local'){resetG();enter()}else if(mode=='online'&&G&&myC){rmReq[me.id]=1;G.emit('chat',{n:me.name,t:'',rm:me.id});$('#rm').disabled=true;$('#rm').textContent='Đang chờ đối thủ…';checkRm()}};
 $('#lc').onclick=()=>{nm();resetG();mode='local';myC=null;enter()};
 $('#pai').onclick=()=>{nm();resetG();mode='ai';lv=+$('#lv').value;const s=$('#sd').value;myC=s=='r'?(Math.random()<.5?'w':'b'):s;players={};enter();if(myC=='b')setTimeout(aiMove,600)};
 /* ===== ONLINE (room) ===== */
-async function startOnline(c,isHost,spec){nm();resetG();host=isHost;mode='online';try{G=await R.join('g-'+c)}catch(e){G=null;mode='';$('#net').textContent='⚠ Không vào được phòng: '+((e&&e.message)||e);return}G.code=c;
+async function startOnline(c,isHost,spec){nm();resetG();host=isHost;mode='online';rnd=0;rmReq={};try{G=await R.join('g-'+c)}catch(e){G=null;mode='';$('#net').textContent='⚠ Không vào được phòng: '+((e&&e.message)||e);return}G.code=c;
 G.on('state',m=>{if(!m.isMe)applyState(m.data)});
 G.on('move',m=>{if(m.isMe||!players.w)return;const d=m.data;if(!doMove({from:d.from,to:d.to,promotion:d.promotion},true))G.emit('need')});
-G.on('chat',m=>{if(!m.isMe){addMsg(m.data,false);snd('chat')}});
+G.on('chat',m=>{if(m.isMe)return;if(m.data.rm){rmReq[m.data.rm]=1;chatLine({n:'Hệ thống',t:'Đối thủ muốn tái đấu!'});snd('chat');checkRm();return}addMsg(m.data,false);snd('chat')});
 G.on('bet',m=>{if(!m.isMe){bets[m.data.id]=m.data;showPool()}});
 G.on('resign',m=>{if(!m.isMe)finish(m.data.c=='w'?'b':'w','Một bên đã đầu hàng')});
 G.on('join',m=>{if(!host||m.isMe)return;if(!players.b&&m.data.id!=me.id){players.b=m.data;upd()}sendState()});
@@ -160,8 +163,8 @@ G.on('need',m=>{if(m.isMe)return;if(myC)sendState();if(myBet)G.emit('bet',myBet)
 G.onPeers(ch=>{$('#cnt').textContent='👥 '+ch.peers.length+' người trong phòng · mã '+c});
 if(isHost){players.w={id:me.id,name:me.name};myC='w';R.presence({g:c,w:me.name,b:'…'})}else{myC=null;const j=()=>{if(!players.w)G.emit(spec?'need':'join',{id:me.id,name:me.name})};j();setTimeout(j,2000);setTimeout(j,5000)}
 enter();if(!isHost)$('#st').textContent='Đang kết nối phòng '+c+'…';if(isHost)chatLine({n:'Hệ thống',t:'Phòng '+c+' — gửi mã này cho bạn bè. Người lạ có thể xem ở mục Trận đang diễn ra.'})}
-function sendState(){G.emit('state',{w:players.w,b:players.b,h:chess.history({verbose:true}).map(m=>({from:m.from,to:m.to,promotion:m.promotion}))});if(host&&R)R.presence({g:G.code,w:(players.w||{}).name,b:(players.b||{}).name||'…'})}
-function applyState(d){if(!d.w)return;const first=!players.w;players={w:d.w,b:d.b};const old=myC;myC=d.w.id==me.id?'w':d.b&&d.b.id==me.id?'b':null;if(d.h.length>chess.history().length){chess.reset();d.h.forEach(m=>chess.move(m));rebuild();hi()}
+function sendState(){G.emit('state',{w:players.w,b:players.b,r:rnd,h:chess.history({verbose:true}).map(m=>({from:m.from,to:m.to,promotion:m.promotion}))});if(host&&R)R.presence({g:G.code,w:(players.w||{}).name,b:(players.b||{}).name||'…'})}
+function applyState(d){if(!d.w)return;const first=!players.w;players={w:d.w,b:d.b};const old=myC;myC=d.w.id==me.id?'w':d.b&&d.b.id==me.id?'b':null;if((d.r||0)>rnd){rnd=d.r;chess.reset();ended=false;bets={};myBet=null;$('#bg').disabled=false;$('#ban').style.display='none';rebuild();hi()}if(d.h.length>chess.history().length){chess.reset();d.h.forEach(m=>chess.move(m));rebuild();hi()}
 if(!myC)$('#bet').style.display='';if(first||old!=myC){cs.th=myC=='b'?Math.PI:0}upd();showPool();checkEnd()}
 $('#mk').onclick=()=>R&&startOnline(rc(),true);
 $('#jn').onclick=()=>{const c=$('#cd').value.trim().toUpperCase();if(R&&c)startOnline(c,false,false)};
