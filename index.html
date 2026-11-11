@@ -67,7 +67,7 @@ input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.r
 </div>
 <aside id="panel">
 <div id="ph"><b>♞ Cờ Vua 3D</b><span class="sp"></span><button class="g" id="uzm">A−</button><button class="g" id="uzp">A+</button></div>
-<div class="box"><div class="row"><input id="nm" placeholder="Tên của bạn" maxlength="14"><span>🪙 <b id="coin">1000</b></span><button class="g" id="free" style="display:none">+500</button></div><div id="me" class="mu"></div><small id="net"></small></div>
+<div class="box"><div class="row"><input id="nm" placeholder="Tên của bạn" maxlength="14"><span>🪙 <b id="coin">1000</b></span><button class="g" id="free" style="display:none">🧩 Kiếm điểm</button></div><div id="me" class="mu"></div><small id="net"></small></div>
 <div id="menu">
 <div class="vw" id="vplay">
 <div class="seg"><button class="on" data-p="n">Ván mới</button><button data-p="b">Với máy</button><button data-p="f">Bạn bè</button></div>
@@ -77,9 +77,9 @@ input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.r
 <div id="pgb" style="display:none"><div class="row"><select id="lv"><option value="1">Thân thiện (~400 Elo)</option><option value="2" selected>Thử thách (~900 Elo)</option><option value="3">Chuyên gia (~1400 Elo)</option></select><select id="sd"><option value="w">Quân Trắng</option><option value="b">Quân Đen</option><option value="r">Ngẫu nhiên</option></select></div><button class="big" id="pai">▶ Chơi với máy</button></div>
 <div id="pgf" style="display:none"><button class="big" id="mk">＋ Tạo phòng mời bạn</button><div class="row"><input id="cd" placeholder="Nhập mã phòng" maxlength="6"><button id="jn">Vào chơi</button></div><button class="big g" id="lc">2 người chung máy</button></div>
 </div>
-<div class="vw" id="vpuz" style="display:none"><div class="box"><h3>🧩 Giải đố chiến thuật</h3><small>Chiếu hết trong 1 nước · +1 điểm mỗi bài</small></div><button class="big" id="pt">Luyện tập</button><button class="big g" id="pr">⚡ Puzzle Rush 3 phút</button></div>
+<div class="vw" id="vpuz" style="display:none"><div class="box"><h3>🧩 Giải đố chiến thuật</h3><small>Chiếu hết trong 1 nước · +10 điểm cược mỗi bài đúng · dùng để cược ở mục Xem</small></div><button class="big" id="pt">Luyện tập</button><button class="big g" id="pr">⚡ Puzzle Rush 3 phút</button></div>
 <div class="vw" id="vwatch" style="display:none"><div class="box"><h3>👁 Trận đang diễn ra</h3><div id="live" class="mu">Chưa có trận nào.</div></div><div class="row"><input id="cw" placeholder="Hoặc nhập mã phòng" maxlength="6"><button id="wt">Xem</button></div><small>Người xem được trò chuyện và đặt cược xu ảo cho bên Trắng hoặc Đen.</small></div>
-<div class="vw" id="vrank" style="display:none"><div class="box"><h3>🏆 Bảng xếp hạng (👑 vàng · bạc · đồng)</h3><div class="row"><button id="lw">Tuần</button><button class="g" id="lm">Tháng</button><button class="g" id="lr">⟳</button></div><div id="lbl" class="mu" style="margin-top:6px"></div></div></div>
+<div class="vw" id="vrank" style="display:none"><div class="box"><h3>🏆 Bảng xếp hạng (👑 vàng · bạc · đồng)</h3><div class="row"><button id="lw">Tuần</button><button class="g" id="lm">Tháng</button><button class="g" id="lr">⟳</button></div><small id="lbs"></small><div id="lbl" class="mu" style="margin-top:6px"></div></div></div>
 <div class="vw" id="vprofile" style="display:none">
  <div class="box profile-head">
   <div class="avatar" id="pAvatar">♞</div>
@@ -107,6 +107,8 @@ input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.r
   <div id="friendList" class="friend-list mu">Chưa có bạn bè. Hãy thêm người chơi bằng tên hoặc ID.</div>
   <small>Bạn bè được lưu cục bộ; tính năng mời trực tiếp sẽ cần đồng bộ tài khoản trên máy chủ.</small>
  </div>
+ <div class="box"><h3>🎨 Skin bàn cờ & quân</h3><select id="skinSel" style="width:100%"><option value="0">Cổ điển (gỗ)</option><option value="1">Xanh lá</option><option value="2">Băng giá</option><option value="3">Vàng – Đen hoàng gia</option></select></div>
+ <div class="box"><h3>⚔ Đối thủ (thắng · hòa · bại)</h3><div id="oppList" class="mu">Chưa có đối thủ.</div></div>
  <div class="box"><h3>🕘 Ván gần đây</h3><div id="historyList" class="mu">Chưa có lịch sử.</div></div>
 </div>
 </div>
@@ -115,8 +117,9 @@ input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.r
 <div id="mv" class="box"></div>
 <div class="pc"><b id="nB">…</b><span class="ck" id="kB"></span></div>
 <div id="st" class="mu"></div><small id="cnt"></small><div id="pl" style="display:none"></div>
+<div class="row" id="rpRow" style="display:none"><button class="g" id="rpP">◀ Lùi</button><button class="g" id="rpN">Tiến ▶</button></div>
 <div class="row"><button class="g" id="tb" style="display:none">↩ Đi lại</button><button class="g" id="reopenResult" style="display:none">⚔ Xem kết quả / tái đấu</button></div>
-<div class="box" id="bet" style="display:none"><h3>🎲 Đặt cược (xu ảo)</h3><div class="row"><select id="bs2"><option value="w">Trắng thắng</option><option value="b">Đen thắng</option></select><input id="ba" type="number" value="100" min="10" style="width:80px"><button id="bg">Cược</button></div><small id="pool"></small></div>
+<div class="box" id="bet" style="display:none"><h3>🎲 Đặt cược (điểm giải đố)</h3><div class="row"><select id="bs2"><option value="w">Trắng thắng</option><option value="b">Đen thắng</option></select><input id="ba" type="number" value="100" min="10" style="width:80px"><button id="bg">Cược</button></div><small id="pool"></small></div>
 </div>
 </aside></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -125,11 +128,11 @@ input{min-width:0}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.r
 const $=s=>document.querySelector(s),chess=new Chess();
 let R=null,G=null,mode='',myC=null,sel=null,legal=[],busy=false,ended=false,players={},bets={},myBet=null,lv=2,host=false,seeking=false,muted=false,coins=1000,pm={},tw=[];
 const me={id:(()=>{try{let i=localStorage.getItem('c3id');if(!i){i=Math.random().toString(36).slice(2,9);localStorage.setItem('c3id',i)}return i}catch(e){return Math.random().toString(36).slice(2,9)}})(),name:''};
-try{coins=+localStorage.getItem('c3coin')||1000;$('#nm').value=localStorage.getItem('c3name')||''}catch(e){}
+try{coins=+localStorage.getItem('c3coin')||200;$('#nm').value=localStorage.getItem('c3name')||''}catch(e){}
 const rc=()=>Math.random().toString(36).slice(2,6).toUpperCase();
 const nm=()=>{me.name=($('#nm').value.trim()||'Khách'+me.id.slice(0,3));try{localStorage.setItem('c3name',me.name)}catch(e){}};
-function saveCoin(){$('#coin').textContent=coins;$('#free').style.display=coins<100?'':'none';try{localStorage.setItem('c3coin',coins)}catch(e){}}
-saveCoin();$('#free').onclick=()=>{coins+=500;saveCoin()};
+function saveCoin(){$('#coin').textContent=coins;$('#free').style.display=coins<10?'':'none';try{localStorage.setItem('c3coin',coins)}catch(e){}}
+saveCoin();$('#free').onclick=()=>view('puz');
 /* ===== ÂM THANH (WebAudio) ===== */
 let AC;function ac(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=='suspended')AC.resume()}catch(e){}return AC}
 ['pointerdown','keydown','touchstart'].forEach(v=>addEventListener(v,()=>{ac();if(music&&!mTimer)startMusic()}));
@@ -202,8 +205,8 @@ function checkEnd(){if(!chess.game_over())return;if(chess.in_checkmate())finish(
 function finish(w,why){if(ended)return;ended=true;recordMatch(w);const nmz=c=>c=='w'?'Trắng':'Đen';$('#bt').innerHTML=(w=='d'?'🤝 Hòa':'🏆 '+nmz(w)+' thắng')+'<br><small>'+why+'</small>';$('#rm').disabled=false;$('#rm').textContent='⚔ Tái đấu';$('#rm').style.display=(mode=='online'&&!myC)?'none':'';$('#ban').style.display='block';snd(w=='d'?'go':(myC?(w==myC?'win':'lose'):'win'));upd();settle(w);rate(w)}
 function pool(){const p={w:0,b:0};Object.values(bets).forEach(x=>p[x.side]+=x.amt);return p}
 function showPool(){const p=pool(),t=p.w+p.b;$('#pool').textContent='Quỹ: Trắng '+p.w+' | Đen '+p.b+(myBet?' — bạn cược '+myBet.amt+' cho '+(myBet.side=='w'?'Trắng':'Đen'):'')+(t&&p.w&&p.b&&!myBet?' — tỉ lệ T '+(t/p.w).toFixed(2)+' / Đ '+(t/p.b).toFixed(2):'')}
-$('#bg').onclick=()=>{const a=Math.floor(+$('#ba').value);if(myBet||ended||!G||!(a>=10)||a>coins){return}coins-=a;saveCoin();myBet={id:me.id,name:me.name,side:$('#bs2').value,amt:a};bets[me.id]=myBet;G.emit('bet',myBet);snd('bet');showPool();$('#bg').disabled=true};
-function settle(w){if(!myBet||myBet.done)return;myBet.done=1;const p=pool(),T=p.w+p.b;let pay=0;if(w=='d')pay=myBet.amt;else if(myBet.side==w)pay=Math.round(myBet.amt/p[w]*T);coins+=pay;saveCoin();chatLine({n:'Hệ thống',t:pay>myBet.amt?'Bạn thắng cược! +'+(pay-myBet.amt)+' xu':pay==myBet.amt?'Hoàn tiền cược.':'Bạn thua cược −'+myBet.amt+' xu'})}
+$('#bg').onclick=()=>{const a=Math.floor(+$('#ba').value);if(myBet||ended||!G||!(a>=10)){return}if(a>coins){chatLine({n:'Hệ thống',t:'Không đủ điểm. Hãy giải đố ở mục 🧩 để kiếm thêm.'});return}coins-=a;saveCoin();myBet={id:me.id,name:me.name,side:$('#bs2').value,amt:a};bets[me.id]=myBet;G.emit('bet',myBet);snd('bet');showPool();$('#bg').disabled=true};
+function settle(w){if(!myBet||myBet.done)return;myBet.done=1;const p=pool(),T=p.w+p.b;let pay=0;if(w=='d')pay=myBet.amt;else if(myBet.side==w)pay=Math.round(myBet.amt/p[w]*T);coins+=pay;saveCoin();persistProfile();chatLine({n:'Hệ thống',t:pay>myBet.amt?'Bạn thắng cược! +'+(pay-myBet.amt)+' xu':pay==myBet.amt?'Hoàn tiền cược.':'Bạn thua cược −'+myBet.amt+' xu'})}
 /* ===== GIAO DIỆN ===== */
 function upd(){const h=chess.history(),nmz={w:'Trắng',b:'Đen'};let pl=mode=='puz'?'🧩 Giải đố':mode=='local'?'⚪ Người 1 vs ⚫ Người 2':mode=='ai'?(myC=='w'?'⚪ Bạn vs ⚫ Máy':'⚪ Máy vs ⚫ Bạn'):mode?'⚪ '+nz(players.w)+' vs ⚫ '+(players.b?nz(players.b):'chờ đối thủ…'):'Cờ Vua 3D';$('#pl').innerHTML='<b>'+pl.replace(/</g,'&lt;')+'</b>';
 $('#st').textContent=!mode?'Chọn chế độ chơi':mode=='puz'?pzTxt():ended?'Ván cờ đã kết thúc':(chess.turn()==myC?'Đến lượt bạn':'Lượt '+nmz[chess.turn()])+(chess.in_check()?' — CHIẾU!':'');
@@ -215,7 +218,7 @@ $('#cs').onclick=sendChat;$('#ci').onkeydown=e=>{if(e.key=='Enter')sendChat()};
 function sendChat(){const t=$('#ci').value.trim();if(!t)return;nm();$('#ci').value='';const d={n:crown(me.id)+me.name,t};addMsg(d,true);const r=G||R;if(r)r.emit(G?'chat':'lobbychat',d)}
 const menu=$('#menu');menu.hidden=false;
 function showMenu(v){menu.hidden=!v;menu.style.display=v?'':'none';$('#vGame').style.display=v?'none':'flex'}
-function resetG(){$('#reopenResult').style.display='none';chess.reset();ended=false;bets={};myBet=null;players={};sel=null;legal=[];busy=false;$('#ban').style.display='none';$('#bet').style.display='none';$('#bg').disabled=false;$('#pool').textContent='';$('#bp').textContent='📋';clkInit(TC);rebuild();hi()}
+function resetG(){$('#rpRow').style.display='none';$('#reopenResult').style.display='none';chess.reset();ended=false;bets={};myBet=null;players={};sel=null;legal=[];busy=false;$('#ban').style.display='none';$('#bet').style.display='none';$('#bg').disabled=false;$('#pool').textContent='';$('#bp').textContent='📋';clkInit(TC);rebuild();hi()}
 function enter(){showMenu(false);cs.th=myC=='b'?Math.PI:0;cs.ph=1;cs.d=Math.max(12,cs.min||0);snd('go');upd()}
 function leave(){try{G&&G.leave&&G.leave()}catch(e){}G=null;mode='';myC=null;if(R)R.presence({g:null,w:null,b:null,seek:null});seeking=false;$('#skst').textContent='';$('#cnt').textContent='';showMenu(true);upd();loadLB()}
 $('#bm').onclick=leave;$('#bb').onclick=leave;$('#closeResult').onclick=()=>{$('#ban').style.display='none';$('#reopenResult').style.display=''};$('#reopenResult').onclick=()=>{$('#ban').style.display='block';$('#reopenResult').style.display='none'};
@@ -247,7 +250,8 @@ function chk(){if(!seeking||!R)return;const o=R.peers().find(p=>p.presence&&p.pr
 function renderLive(){const l=R?R.peers().filter(p=>p.presence&&p.presence.g):[];const e=$('#live');e.textContent='';if(!l.length){e.textContent='Chưa có trận nào.';return}l.forEach(p=>{const b=document.createElement('button');b.className='g';b.style.margin='2px';b.textContent='👁 '+p.presence.w+' vs '+p.presence.b+' ('+p.presence.g+')';b.onclick=()=>startOnline(p.presence.g,false,true);e.append(b)})}
 (async()=>{$('#net').textContent='Đang kết nối sảnh online…';try{R=window.claude&&await claude.use('room')}catch(e){console.error(e)}
 if(!R){$('#net').textContent='⚠ Không kết nối được sảnh online. Hãy mở trang bằng liên kết Artifact trên claude.ai (đã đăng nhập), cấp quyền khi được hỏi, rồi tải lại. Vẫn chơi được với máy hoặc 2 người chung máy.';['mk','jn','wt','sk'].forEach(i=>$('#'+i).disabled=true);return}
-R.onPeers(()=>{chk();renderLive()});R.on('lobbychat',m=>{if(!m.isMe){addMsg(m.data,false);snd('chat')}});
+R.onPeers(()=>{chk();renderLive();if(!$('#net').querySelector('button'))$('#net').textContent='🟢 Online: '+R.peers().length+' người'});R.on('lobbychat',m=>{if(!m.isMe){addMsg(m.data,false);snd('chat')}});
+R.on('invite',m=>{if(m.isMe||m.data.to!=me.id)return;const e=$('#net');e.textContent=m.data.name+' mời bạn đấu cờ ';const b=document.createElement('button');b.textContent='Chấp nhận';b.onclick=()=>{view('play');startOnline(m.data.code,false,false)};e.append(b);snd('chat')});
 R.on('match',m=>{if(seeking&&m.data.to==me.id){seeking=false;R.presence({seek:null});startOnline(m.data.code,false,false)}});$('#net').textContent='🟢 Đã kết nối sảnh online';renderLive()})();
 let TC=0,clk={w:0,b:0},lastT=performance.now(),elo=800,pts={wk:'',wp:0,mo:'',mp:0},DB=null,tops={},lbp='w',lbd=[],pz={s:0,k:0,i:0,list:[]};
 try{elo=+localStorage.getItem('c3elo')||800;pts=JSON.parse(localStorage.getItem('c3pts')||'null')||pts}catch(e){}
@@ -258,15 +262,15 @@ function save(){try{localStorage.setItem('c3elo',elo);localStorage.setItem('c3pt
 
 /* ===== HỒ SƠ CÁ NHÂN, BẠN BÈ & LỊCH SỬ ===== */
 const AVATARS=['♞','♟','🦊','🐺','🦁','🐉','🦅','🐼','🐯','🦉','🐻','🐸'];
-let avatarIndex=0, friends=[], matchHistory=[], stats={games:0,wins:0,draws:0,losses:0};
+let avatarIndex=0, friends=[], matchHistory=[], stats={games:0,wins:0,draws:0,losses:0},opps={};
 try{
  avatarIndex=+(localStorage.getItem('c3avatar')||0)%AVATARS.length;
  friends=JSON.parse(localStorage.getItem('c3friends')||'[]');
  matchHistory=JSON.parse(localStorage.getItem('c3history')||'[]');
- stats=Object.assign(stats,JSON.parse(localStorage.getItem('c3stats')||'{}'));
+ stats=Object.assign(stats,JSON.parse(localStorage.getItem('c3stats')||'{}'));opps=JSON.parse(localStorage.getItem('c3opps')||'{}');
 }catch(e){}
 function persistProfile(){
- try{localStorage.setItem('c3avatar',avatarIndex);localStorage.setItem('c3friends',JSON.stringify(friends));localStorage.setItem('c3history',JSON.stringify(matchHistory));localStorage.setItem('c3stats',JSON.stringify(stats))}catch(e){}
+ try{localStorage.setItem('c3avatar',avatarIndex);localStorage.setItem('c3friends',JSON.stringify(friends));localStorage.setItem('c3history',JSON.stringify(matchHistory));localStorage.setItem('c3stats',JSON.stringify(stats));localStorage.setItem('c3opps',JSON.stringify(opps))}catch(e){}pushCloud();
 }
 function renderProfile(){
  nm();
@@ -279,14 +283,16 @@ function renderProfile(){
  $('#statWins').textContent=stats.wins;
  $('#statDraws').textContent=stats.draws;
  $('#statLosses').textContent=stats.losses;
- $('#statExtra').textContent='Điểm Elo hiện tại: '+elo+' · '+TIER(elo);
+ $('#statExtra').textContent='Tỷ lệ thắng: '+(stats.games?Math.round(stats.wins/stats.games*100):0)+'% · Elo '+elo+' · '+TIER(elo);
+ const fc=['#8d8d8d','#cd7f32','#c0c0c0','#ffd700','#4dd0e1','#e040fb'][elo<600?0:elo<1000?1:elo<1400?2:elo<1800?3:elo<2200?4:5];$('#pAvatar').style.borderColor=fc;$('#pAvatar').style.boxShadow='0 0 12px '+fc;$('#skinSel').value=skin;
+ const ol=$('#oppList');ol.textContent='';const oa=Object.values(opps).sort((a,b)=>(b.w+b.d+b.l)-(a.w+a.d+a.l)).slice(0,6);if(!oa.length)ol.textContent='Chưa có đối thủ.';oa.forEach(o=>{const d=document.createElement('div');d.className='friend';const t=document.createElement('span');t.textContent='👤 '+o.name;const b=document.createElement('small');b.textContent=o.w+'T '+o.d+'H '+o.l+'B';d.append(t,b);ol.append(d)});
  const fl=$('#friendList');fl.textContent='';
  if(!friends.length)fl.textContent='Chưa có bạn bè. Hãy thêm người chơi bằng tên hoặc ID.';
  friends.forEach((f,i)=>{
   const row=document.createElement('div');row.className='friend';
   const label=document.createElement('span');label.textContent='👤 '+f.name;
   const del=document.createElement('button');del.className='g';del.textContent='Xóa';del.onclick=()=>{friends.splice(i,1);persistProfile();renderProfile()};
-  row.append(label,del);fl.append(row);
+  const inv=document.createElement('button');inv.textContent='⚔';inv.title='Mời đấu';inv.onclick=()=>invite(f);row.append(label,inv,del);fl.append(row);
  });
  const hl=$('#historyList');hl.textContent='';
  if(!matchHistory.length)hl.textContent='Chưa có lịch sử.';
@@ -294,7 +300,7 @@ function renderProfile(){
   const row=document.createElement('div');row.className='friend';
   const a=document.createElement('span');a.textContent=h.result+' · '+h.mode+' · '+h.date;
   const b=document.createElement('small');b.textContent=h.elo||'';
-  row.append(a,b);hl.append(row);
+  row.append(a,b);if(h.pgn){const p=document.createElement('button');p.className='g';p.textContent='▶';p.title='Xem lại ván';p.onclick=()=>replay(h.pgn);row.append(p)}hl.append(row);
  });
 }
 $('#avatarNext').onclick=()=>{avatarIndex=(avatarIndex+1)%AVATARS.length;persistProfile();renderProfile()};
@@ -305,23 +311,29 @@ $('#addFriend').onclick=()=>{const v=$('#friendInput').value.trim();if(!v)return
 function recordMatch(w){
  if(!myC||mode=='local'||mode=='puz')return;
  stats.games++;if(w=='d')stats.draws++;else if(w==myC)stats.wins++;else stats.losses++;
- matchHistory.unshift({result:w=='d'?'Hòa':w==myC?'Thắng':'Thua',mode:mode=='ai'?'Đấu máy':'Online',date:new Date().toLocaleString('vi-VN'),elo:elo+' Elo'});
+ matchHistory.unshift({result:w=='d'?'Hòa':w==myC?'Thắng':'Thua',mode:mode=='ai'?'Đấu máy':'Online',date:new Date().toLocaleString('vi-VN'),elo:elo+' Elo',pgn:chess.pgn()});
+ const o=mode=='ai'?{id:'ai'+lv,name:'🤖 Máy cấp '+lv}:players[myC=='w'?'b':'w'];if(o){const r=opps[o.id]=opps[o.id]||{name:o.name,w:0,d:0,l:0};if(w=='d')r.d++;else if(w==myC)r.w++;else r.l++}
  matchHistory=matchHistory.slice(0,30);persistProfile();
 }
-function award(n){const k=keys();if(pts.wk!=k.wk){pts.wk=k.wk;pts.wp=0}if(pts.mo!=k.mo){pts.mo=k.mo;pts.mp=0}pts.wp+=n;pts.mp+=n;save();if(DB)DB.collection('scores').doc(me.id).set({name:me.name,elo,wk:pts.wk,wp:pts.wp,mo:pts.mo,mp:pts.mp,t:Date.now()}).then(()=>setTimeout(loadLB,800)).catch(()=>{})}
+function award(n){const k=keys();if(pts.wk!=k.wk){pts.wk=k.wk;pts.wp=0}if(pts.mo!=k.mo){pts.mo=k.mo;pts.mp=0}pts.wp+=n;pts.mp+=n;save();if(DB)DB.collection('scores').doc(me.id).set({name:me.name,av:avatarIndex,elo,wk:pts.wk,wp:pts.wp,mo:pts.mo,mp:pts.mp,t:Date.now()}).then(()=>setTimeout(loadLB,800)).catch(()=>{})}
 function rate(w){if(!myC||mode=='local'||mode=='puz'||chess.history().length<4)return;const s=w=='d'?.5:w==myC?1:0;let opp,p;if(mode=='ai'){opp=LVE[lv];p=s==1?[0,2,4,6][lv]:s?1:0}else{const o=players[myC=='w'?'b':'w'];if(!o)return;opp=o.r||800;p=s==1?10:s?4:1}const old=elo;elo=Math.max(100,Math.round(elo+32*(s-1/(1+Math.pow(10,(opp-elo)/400)))));$('#bt').innerHTML+='<br><small>Elo '+elo+' ('+(elo>=old?'+':'')+(elo-old)+') · '+TIER(elo)+' · +'+p+' điểm</small>';award(p)}
 async function loadLB(){if(!DB){$('#lbl').textContent='Bảng xếp hạng cần mở bằng liên kết Artifact đã đăng nhập.';return}try{const s=await DB.collection('scores').limit(300).get();lbd=s.docs.map(d=>Object.assign({id:d.id},d.data()));drawLB()}catch(e){$('#lbl').textContent='Không tải được bảng xếp hạng.'}}
-function drawLB(){const k=keys(),W=lbp=='w',kf=W?'wk':'mo',pf=W?'wp':'mp',l=lbd.filter(x=>x[kf]==k[kf]&&x[pf]>0).sort((a,b)=>b[pf]-a[pf]);tops={};lbd.filter(x=>x.wk==k.wk&&x.wp>0).sort((a,b)=>b.wp-a.wp).slice(0,3).forEach((x,i)=>tops[x.id]=i+1);const e=$('#lbl');e.textContent='';if(!l.length){e.textContent='Chưa ai có điểm '+(W?'tuần':'tháng')+' này. Hãy thắng ván để lên bảng!';return}const F=['','grayscale(1) brightness(1.5)','sepia(1) saturate(3) hue-rotate(-25deg)'];l.slice(0,10).forEach((x,i)=>{const d=document.createElement('div');if(i<3){const c=document.createElement('span');c.textContent='👑';c.style.filter=F[i];d.append(c);d.style.fontWeight='700';d.style.fontSize=(18-i*2)+'px'}d.append(' '+(i+1)+'. '+x.name+(x.id==me.id?' (bạn)':'')+' — '+x[pf]+'đ · Elo '+x.elo+' '+TIER(x.elo));e.append(d)})}
+function drawLB(){const k=keys(),W=lbp=='w',kf=W?'wk':'mo',pf=W?'wp':'mp',l=lbd.filter(x=>x[kf]==k[kf]&&x[pf]>0).sort((a,b)=>b[pf]-a[pf]);tops={};lbd.filter(x=>x.wk==k.wk&&x.wp>0).sort((a,b)=>b.wp-a.wp).slice(0,3).forEach((x,i)=>tops[x.id]=i+1);const e=$('#lbl');e.textContent='';if(!l.length){e.textContent='Chưa ai có điểm '+(W?'tuần':'tháng')+' này. Hãy thắng ván để lên bảng!';return}const F=['','grayscale(1) brightness(1.5)','sepia(1) saturate(3) hue-rotate(-25deg)'];l.slice(0,10).forEach((x,i)=>{const d=document.createElement('div');if(i<3){const c=document.createElement('span');c.textContent='👑';c.style.filter=F[i];d.append(c);d.style.fontWeight='700';d.style.fontSize=(18-i*2)+'px'}d.append(' '+(i+1)+'. '+AVATARS[x.av||0]+' '+x.name+(x.id==me.id?' (bạn)':'')+' — '+x[pf]+'đ · Elo '+x.elo+' '+TIER(x.elo));e.append(d)})}
 $('#lw').onclick=()=>{lbp='w';drawLB()};$('#lm').onclick=()=>{lbp='m';drawLB()};$('#lr').onclick=loadLB;
 function pzList(){const out=[],PZ=['6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1','r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w - - 0 1','6rk/6pp/8/6N1/8/8/8/6K1 w - - 0 1','k7/8/1K6/8/8/8/8/7R w - - 0 1','7k/5Q2/6K1/8/8/8/8/8 w - - 0 1'];PZ.forEach(f=>{const q=f.split(' '),b=q[0],t=q[1],m=b.split('/').map(x=>x.split('').reverse().join('')).join('/'),sw=s=>s.split('/').reverse().map(x=>x.replace(/[a-zA-Z]/g,ch=>ch==ch.toUpperCase()?ch.toLowerCase():ch.toUpperCase())).join('/'),o=t=='w'?'b':'w';[[b,t],[m,t],[sw(b),o],[sw(m),o]].forEach(a=>out.push(a[0]+' '+a[1]+' - - 0 1'))});return out.filter(f=>{const c=new Chess();return c.load(f)&&c.moves().some(m=>{c.move(m);const ok=c.in_checkmate();c.undo();return ok})})}
 const pzTxt=()=>'🧩 Chiếu hết trong 1 nước! Đúng '+pz.s+(pz.rush?' · Sai '+pz.k+'/3 · còn '+fm((pz.end-Date.now())/1e3):'');
 function startPuz(r){nm();TC=0;resetG();mode='puz';pz={s:0,k:0,i:0,rush:r,end:r?Date.now()+18e4:0,list:pzList().sort(()=>Math.random()-.5)};nextPuz();enter()}
 function nextPuz(){if(pz.i>=pz.list.length){pz.i=0;pz.list.sort(()=>Math.random()-.5)}chess.load(pz.list[pz.i++]);myC=chess.turn();ended=false;busy=false;sel=null;legal=[];$('#ban').style.display='none';rebuild();hi();cs.th=myC=='b'?Math.PI:0;upd()}
-function puzCheck(){if(chess.in_checkmate()){pz.s++;award(1);snd('win');setTimeout(()=>{if(mode=='puz'&&!ended)nextPuz()},900)}else{pz.k++;snd('lose');const f=pz.list[pz.i-1];setTimeout(()=>{if(mode!='puz'||ended)return;if(pz.rush&&pz.k>=3)return endPuz('Sai quá 3 lần');chess.load(f);rebuild();hi();upd()},700)}upd()}
-function endPuz(why){if(ended)return;ended=true;if(pz.rush&&pz.s>1)award(Math.floor(pz.s/2));$('#bt').innerHTML='🧩 Đã giải '+pz.s+' bài<br><small>'+why+'</small>';$('#rm').disabled=false;$('#rm').textContent='⚔ Chơi lại';$('#rm').style.display='';$('#ban').style.display='block';snd('go')}
+function puzCheck(){if(chess.in_checkmate()){pz.s++;award(1);coins+=10;saveCoin();persistProfile();snd('win');setTimeout(()=>{if(mode=='puz'&&!ended)nextPuz()},900)}else{pz.k++;snd('lose');const f=pz.list[pz.i-1];setTimeout(()=>{if(mode!='puz'||ended)return;if(pz.rush&&pz.k>=3)return endPuz('Sai quá 3 lần');chess.load(f);rebuild();hi();upd()},700)}upd()}
+function endPuz(why){if(ended)return;ended=true;if(pz.rush&&pz.s>1){award(Math.floor(pz.s/2));coins+=pz.s*3;saveCoin();persistProfile()}$('#bt').innerHTML='🧩 Đã giải '+pz.s+' bài<br><small>'+why+'</small>';$('#rm').disabled=false;$('#rm').textContent='⚔ Chơi lại';$('#rm').style.display='';$('#ban').style.display='block';snd('go')}
 $('#pt').onclick=()=>startPuz(false);$('#pr').onclick=()=>startPuz(true);
 setInterval(()=>{const n=performance.now(),dt=(n-lastT)/1e3;lastT=n;if(!mode||ended)return;if(mode=='puz'){if(pz.rush&&Date.now()>pz.end)endPuz('Hết giờ!');else upd();return}if(!TC||chess.history().length<1||(mode=='online'&&!(players.w&&players.b)))return;const t=chess.turn();clk[t]=Math.max(0,clk[t]-dt);upd();if(clk[t]<=0)finish(t=='w'?'b':'w','Hết giờ!')},250);
-(async()=>{try{DB=window.claude&&await claude.use('db')}catch(e){}loadLB()})();save();
+(async()=>{try{DB=window.claude&&await claude.use('db');const U=await claude.use('user');if(U&&U.id){me.id=await U.id();try{localStorage.setItem('c3id',me.id)}catch(e){}}}catch(e){}
+if(DB){await pullCloud();subLB()}else loadLB()})();save();
+var pcT,lbU=null;
+function pushCloud(){if(!DB)return;clearTimeout(pcT);pcT=setTimeout(()=>DB.collection('data/users/'+me.id+'/sync').doc('profile').set({stats,friends,history:matchHistory,opps,av:avatarIndex,elo,coins}).catch(()=>{}),1500)}
+async function pullCloud(){try{const d=await DB.collection('data/users/'+me.id+'/sync').doc('profile').get();const x=d.exists&&d.data();if(x&&x.stats&&x.stats.games>=stats.games){stats=x.stats;friends=x.friends||[];matchHistory=x.history||[];opps=x.opps||{};avatarIndex=x.av||0;if(x.elo)elo=x.elo;if(x.coins!=null)coins=x.coins;saveCoin();save();persistProfile()}}catch(e){}}
+function subLB(){if(lbU)return;try{lbU=DB.collection('scores').limit(300).onSnapshot(q=>{lbd=q.docs.map(d=>Object.assign({id:d.id},d.data()));drawLB();$('#lbs').textContent='🟢 Cập nhật trực tiếp'},e=>{lbU=null;$('#lbs').textContent='Mất kết nối thời gian thực'})}catch(e){loadLB()}}
 
 function cards(){const b=mode=='local'?chess.turn():(myC||'w'),tp=b=='w'?'b':'w',nf=c=>mode=='ai'?(c==myC?(me.name||'Bạn'):'🤖 Máy ('+['','Thân thiện','Thử thách','Chuyên gia'][lv]+')'):mode=='local'?(c=='w'?'Người 1':'Người 2'):mode=='puz'?'🧩 Giải đố':nz(players[c]),f=c=>TC&&mode!='puz'?fm(clk[c]):'';$('#nT').textContent=(tp=='w'?'⚪ ':'⚫ ')+nf(tp);$('#nB').textContent=(b=='w'?'⚪ ':'⚫ ')+nf(b);$('#kT').textContent=f(tp);$('#kB').textContent=f(b);$('#kT').style.display=$('#kB').style.display=(TC&&mode!='puz')?'':'none';$('#kT').classList.toggle('on',!ended&&chess.turn()==tp);$('#kB').classList.toggle('on',!ended&&chess.turn()==b);$('#tb').style.display=mode=='ai'?'':'none'}
 $('#tb').onclick=()=>{if(mode!='ai'||ended||busy||chess.turn()!=myC||chess.history().length<2)return;chess.undo();chess.undo();sel=null;legal=[];rebuild();hi();upd();snd('chat')};
@@ -340,5 +352,14 @@ cv.addEventListener('pointerdown',e=>{pt2.set(e.pointerId,[e.clientX,e.clientY])
 cv.addEventListener('pointermove',e=>{if(!pt2.has(e.pointerId))return;pt2.set(e.pointerId,[e.clientX,e.clientY]);if(pt2.size==2){const d=pdist();cs.d=Math.max(7,Math.min(zmax(),cs.d*pd0/d));pd0=d}});
 ['pointerup','pointercancel'].forEach(v=>cv.addEventListener(v,e=>pt2.delete(e.pointerId)));
 cards();
-rebuild();resize();
+const SKINS=[[0xe8d3a8,0x7a4b2a,0xf3ecdc,0x2a2b35],[0xeeeed2,0x769656,0xffffff,0x333333],[0xdce9f2,0x6f93b0,0xe6f4ff,0x1b3a5c],[0xf1e3b3,0x3b2f1e,0xffd76a,0x1c1c1c]];
+var skin=0;try{skin=+localStorage.getItem('c3skin')||0}catch(e){}
+function applySkin(i){skin=i;const k=SKINS[i];tiles.forEach(t=>{const f='abcdefgh'.indexOf(t.userData.sq[0]),r=+t.userData.sq[1]-1;t.material.color.setHex((f+r)%2?k[0]:k[1])});M.w.color.setHex(k[2]);M.b.color.setHex(k[3]);try{localStorage.setItem('c3skin',i)}catch(e){}}
+$('#skinSel').onchange=e=>applySkin(+e.target.value);
+let rpM=[],rpI=0;
+function replay(pgn){const c=new Chess();if(!c.load_pgn(pgn))return;rpM=c.history({verbose:true});resetG();mode='replay';myC=null;enter();ended=true;$('#rpRow').style.display='';rpShow(rpM.length)}
+function rpShow(i){rpI=Math.max(0,Math.min(rpM.length,i));chess.reset();for(let k=0;k<rpI;k++)chess.move(rpM[k]);rebuild();hi();upd();$('#st').textContent='Xem lại: nước '+rpI+'/'+rpM.length}
+$('#rpP').onclick=()=>rpShow(rpI-1);$('#rpN').onclick=()=>rpShow(rpI+1);
+function invite(f){if(!R){$('#profileNotice').textContent='Cần kết nối online để mời đấu.';return}const c=rc();startOnline(c,true).then(()=>R.emit('invite',{to:f.id,name:me.name,code:c}))}
+applySkin(skin);rebuild();resize();
 </script></body></html>
