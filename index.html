@@ -230,7 +230,7 @@ $('#rm').onclick=()=>{if(mode=='puz'){startPuz(pz.rush)}else if(mode=='ai'){cons
 $('#lc').onclick=()=>{nm();TC=+$('#tc').value;resetG();mode='local';myC=null;enter()};
 $('#pai').onclick=()=>{nm();TC=+$('#tc').value;resetG();mode='ai';lv=+$('#lv').value;const s=$('#sd').value;myC=s=='r'?(Math.random()<.5?'w':'b'):s;players={};enter();if(myC=='b')setTimeout(aiMove,600)};
 /* ===== ONLINE (room) ===== */
-async function startOnline(c,isHost,spec){nm();if(isHost)TC=+$('#tc').value;resetG();host=isHost;mode='online';rnd=0;rmReq={};try{G=await R.join('g-'+c)}catch(e){G=null;mode='';$('#net').textContent='⚠ Không vào được phòng: '+((e&&e.message)||e);return}G.code=c;
+async function startOnline(c,isHost,spec){nm();if(isHost)TC=+$('#tc').value;resetG();host=isHost;mode='online';rnd=0;rmReq={};try{G=await R.join('g-'+c)}catch(e){G=null;mode='';$('#net').textContent='⚠ Không vào được phòng: '+((e&&e.message)||e);return}G.code=c;const g0=G;
 G.on('state',m=>{if(!m.isMe)applyState(m.data)});
 G.on('move',m=>{if(m.isMe||!players.w)return;const d=m.data;if(!doMove({from:d.from,to:d.to,promotion:d.promotion},true))G.emit('need');else if(d.c)clk=d.c});
 G.on('chat',m=>{if(m.isMe)return;if(m.data.rm){rmReq[m.data.rm]=1;chatLine({n:'Hệ thống',t:'Đối thủ muốn tái đấu!'});snd('chat');checkRm();return}addMsg(m.data,false);snd('chat')});
@@ -239,7 +239,7 @@ G.on('resign',m=>{if(!m.isMe)finish(m.data.c=='w'?'b':'w','Một bên đã đầ
 G.on('join',m=>{if(!host||m.isMe)return;if(!players.b&&m.data.id!=me.id){players.b=m.data;upd()}sendState()});
 G.on('need',m=>{if(m.isMe)return;if(myC)sendState();if(myBet)G.emit('bet',myBet)});
 G.onPeers(ch=>{$('#cnt').textContent='👥 '+ch.peers.length+' người trong phòng · mã '+c});
-if(isHost){players.w={id:me.id,name:me.name,r:elo};myC='w';R.presence({g:c,w:me.name,b:'…'})}else{myC=null;const j=()=>{if(!players.w)G.emit(spec?'need':'join',{id:me.id,name:me.name,r:elo})};j();setTimeout(j,2000);setTimeout(j,5000)}
+if(isHost){players.w={id:me.id,name:me.name,r:elo};myC='w';R.presence({g:c,w:me.name,b:'…'})}else{myC=null;const j=()=>{if(!players.w)G.emit(spec?'need':'join',{id:me.id,name:me.name,r:elo})};j();let n=0;const jt=setInterval(()=>{if(players.w||G!==g0){clearInterval(jt);return}if(++n==5)$('#st').textContent='Chưa thấy chủ phòng '+c+'. Hãy kiểm tra mã và nhờ bạn giữ nguyên trang phòng.';j()},2000)}
 enter();if(isHost)$('#bl').style.display='';if(!isHost)$('#st').textContent='Đang kết nối phòng '+c+'…';if(isHost)chatLine({n:'Hệ thống',t:'Phòng '+c+' — bấm 🔗 Link mời để gửi cho bạn bè (hoặc gửi mã này). Người lạ có thể xem ở mục Trận đang diễn ra.'})}
 function sendState(){G.emit('state',{w:players.w,b:players.b,r:rnd,tc:TC,c:clk,h:chess.history({verbose:true}).map(m=>({from:m.from,to:m.to,promotion:m.promotion}))});if(host&&R)R.presence({g:G.code,w:(players.w||{}).name,b:(players.b||{}).name||'…'})}
 function applyState(d){if(!d.w)return;const first=!players.w;players={w:d.w,b:d.b};if(d.tc!=null&&d.tc!==TC)TC=d.tc;if(d.c&&TC)clk=d.c;const old=myC;myC=d.w.id==me.id?'w':d.b&&d.b.id==me.id?'b':null;if((d.r||0)>rnd){rnd=d.r;chess.reset();ended=false;bets={};myBet=null;$('#bg').disabled=false;$('#ban').style.display='none';rebuild();hi()}if(d.h.length>chess.history().length){chess.reset();d.h.forEach(m=>chess.move(m));rebuild();hi()}
@@ -359,7 +359,7 @@ cv.addEventListener('pointerdown',e=>{pt2.set(e.pointerId,[e.clientX,e.clientY])
 cv.addEventListener('pointermove',e=>{if(!pt2.has(e.pointerId))return;pt2.set(e.pointerId,[e.clientX,e.clientY]);if(pt2.size==2){const d=pdist();cs.d=Math.max(7,Math.min(zmax(),cs.d*pd0/d));pd0=d}});
 ['pointerup','pointercancel'].forEach(v=>cv.addEventListener(v,e=>pt2.delete(e.pointerId)));
 cards();
-const SKINS=[[0xe8d3a8,0x7a4b2a,0xf3ecdc,0x2a2b35],[0xeeeed2,0x769656,0xffffff,0x333333],[0xdce9f2,0x6f93b0,0xe6f4ff,0x1b3a5c],[0xf1e3b3,0x3b2f1e,0xffd76a,0x1c1c1c]];
+const SKINS=[[0xe8d3a8,0x7a4b2a,0xf3ecdc,0x2a2b35],[0xeeeed2,0x769656,0xffffff,0x333333],[0xdce9f2,0x6f93b0,0xe6f4ff,0x1b3a5c],[0xf1e3b3,0x3b2f1e,0xffd76a,0x1c1c1c],[0xf8e1e7,0xc2607f,0xfff5f7,0x4a2b3a],[0xe6d9f2,0x7a56a8,0xf7f0ff,0x2b1f3d],[0x2d3b4e,0x0f1722,0x7dfcff,0xff4fd8],[0xe9e9e9,0x8a8f98,0xffffff,0x2b2d33],[0xf2d9a6,0xc08a4a,0xfff0cf,0x5a3a1c],[0xb9d3a0,0x2f5d3a,0xe8f5d8,0x1a2a1f]];
 var skin=0;try{skin=+localStorage.getItem('c3skin')||0}catch(e){}
 function applySkin(i){skin=i;const k=SKINS[i];tiles.forEach(t=>{const f='abcdefgh'.indexOf(t.userData.sq[0]),r=+t.userData.sq[1]-1;t.material.color.setHex((f+r)%2?k[0]:k[1])});M.w.color.setHex(k[2]);M.b.color.setHex(k[3]);try{localStorage.setItem('c3skin',i)}catch(e){}}
 $('#skinSel').onchange=e=>applySkin(+e.target.value);
@@ -395,4 +395,18 @@ function renderOnline(){const q=($('#friendInput').value||'').trim().toLowerCase
 $('#friendInput').oninput=renderOnline;
 $('#bl').onclick=()=>{if(!G)return;const l=location.href.split('#')[0]+'#room-'+G.code;$('#chat').classList.add('open');(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(l).then(()=>chatLine({n:'Hệ thống',t:'Đã chép link mời. Gửi cho bạn bè để vào chơi.'})):Promise.reject()).catch(()=>chatLine({n:'Hệ thống',t:'Link mời: '+l}))};
 applySkin(skin);rebuild();resize();
+
+/* ===== Skin mới + Luyện tập nâng cao ===== */
+(function(){
+['Hoa anh đào','Hoàng hôn tím','Neon đêm','Đá cẩm thạch','Sa mạc','Rừng đêm'].forEach((n,i)=>{const o=document.createElement('option');o.value=4+i;o.textContent=n;$('#skinSel').append(o)});$('#skinSel').value=skin;
+let dr=null;
+const D=[['♛ Hậu + Vua chiếu hết','8/8/8/4k3/8/8/3Q4/4K3 w - - 0 1',1],['♜ Xe + Vua chiếu hết','8/8/8/4k3/8/8/8/R3K3 w - - 0 1',1],['♝♝ Hai Tượng chiếu hết','8/8/8/4k3/8/8/8/2B1KB2 w - - 0 1',1],['♙ Vua + Tốt: đối vua','8/8/8/3k4/8/3K4/3P4/8 w - - 0 1',2],['♜ Thế Lucena (thắng)','1K1k4/1P6/8/8/8/8/r7/2R5 w - - 0 1',2],['📖 Khai cuộc Ý (Trắng)','r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3',2],['📖 Tây Ban Nha (Đen)','r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3',2],['📖 Sicilian (Trắng)','rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2',2],['📖 Gambit Hậu (Đen)','rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq - 0 2',2]];
+function go(f,l){nm();TC=0;resetG();mode='ai';lv=l;players={};dr=[f,l];chess.load(f);myC=chess.turn();rebuild();hi();enter();if(myC!=chess.turn())setTimeout(aiMove,400)}
+const b=document.createElement('div');b.className='box';b.innerHTML='<h3>🎯 Luyện tập với máy</h3><small>Tàn cuộc & khai cuộc kinh điển — không tính Elo</small>';
+D.forEach(d=>{const x=document.createElement('button');x.className='g';x.style.cssText='display:block;width:100%;margin-top:6px;text-align:left';x.textContent=d[0];x.onclick=()=>go(d[1],d[2]);b.append(x)});
+$('#vpuz').append(b);
+const o=$('#rm').onclick;$('#rm').onclick=function(e){if(dr&&mode=='ai'){go(dr[0],dr[1]);return}o.call(this,e)};
+['pai','pt','pr'].forEach(i=>$('#'+i).addEventListener('click',()=>{dr=null}));
+const r0=rate;rate=function(w){if(dr&&mode=='ai')return;r0(w)};
+})();
 </script></body></html>
